@@ -93,6 +93,7 @@ export default {
   background-color #131313
   background-image url('./assets/icon.png')
   background-repeat no-repeat
+  background-size: 73% 100%;
   width 300px
   height 183px
   border-radius 10px
