@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card_header">
-      <img class="card_header_logo" src="./assets/logo.png" alt="Particia" />
+      <img class="card_header_logo" src="../assets/logo.png" alt="Particia" />
       <button
         class="card_header_button"
         :class="{ reveal: obscure }"
@@ -91,7 +91,7 @@ export default {
 <style lang="stylus">
 .card
   background-color #131313
-  background-image url('./assets/icon.png')
+  background-image url('../assets/icon.png')
   background-repeat no-repeat
   background-size: 73% 100%;
   width 300px
@@ -117,9 +117,9 @@ export default {
       background-position center center
       background-repeat no-repeat
       background-size contain
-      background-image url('./assets/reveal.png')
+      background-image url('../assets/reveal.png')
       &.reveal
-        background-image url('./assets/obscure.png')
+        background-image url('../assets/obscure.png')
       ::focus
         outline none
   &_numbers
