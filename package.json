@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "vite serve",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier . --write"
   },
   "dependencies": {
     "normalize.css": "^8.0.1",
@@ -18,8 +19,12 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue-jsx": "^4.1.1",
     "@vue/compiler-sfc": "^3.5.13",
+    "@vue/tsconfig": "^0.7.0",
+    "prettier": "^3.5.1",
     "stylus": "^0.64.0",
+    "typescript": "^5.7.3",
     "vite": "^6.1.0",
     "vite-plugin-html": "^3.2.2",
     "vue-loader": "^17.4.2"
