@@ -1,23 +1,18 @@
+<script setup>
+import { ref } from 'vue';
+import Card from "./components/Card.vue";
+
+const name = ref("Cardholder Name");
+const expiry = ref("10/12");
+const cvv = ref("455");
+const number = ref("9784978497849784");
+</script>
+
 <template>
   <div class="center">
     <card :name="name" :expiry="expiry" :cvv="cvv" :number="number" />
   </div>
 </template>
-
-<script>
-import Card from "./components/Card.vue"
-export default {
-  components: { Card },
-  data() {
-    return {
-      name: "Cardholder Name",
-      expiry: "10/12",
-      cvv: "455",
-      number: "9784978497849784"
-    }
-  }
-}
-</script>
 
 <style lang="stylus">
 *, *::before, *::after

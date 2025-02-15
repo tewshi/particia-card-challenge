@@ -19,3 +19,8 @@ run production build
 ```bash
 yarn build
 ```
+
+run production app
+```bash
+yarn preview
+```
