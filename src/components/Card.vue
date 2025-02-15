@@ -1,12 +1,51 @@
+<script setup>
+import { ref, computed, onBeforeUnmount } from 'vue';
+
+const props = defineProps({
+  name: { type: String, required: true },
+  expiry: { type: String, required: true },
+  cvv: { type: String, required: true },
+  number: { type: String, required: true }
+});
+
+const obscure = ref(false);
+const obscured = ref(true);
+const timeout = ref(null);
+
+const showDetails = () => {
+  clearTimeout(timeout.value);
+  obscure.value = !obscure.value;
+  obscured.value = false;
+  timeout.value = setTimeout(() => {
+    obscured.value = true;
+  }, 100);
+};
+
+const numbers = computed(() => {
+  let number = props.number;
+  if (obscure.value) {
+    number = props.number.substr(-4).padStart(16, "•");
+  }
+  return number.split(/(?<p>[0-9•]{4})/).filter((v) => v !== "");
+});
+
+const cvvNumber = computed(() => {
+  if (obscure.value) {
+    return "•••";
+  }
+  return props.cvv;
+});
+
+onBeforeUnmount(() => {
+  clearTimeout(timeout.value);
+});
+</script>
+
 <template>
   <div class="card">
     <div class="card_header">
       <img class="card_header_logo" src="../assets/logo.png" alt="Particia" />
-      <button
-        class="card_header_button"
-        :class="{ reveal: obscure }"
-        @click.stop.prevent="showDetails"
-      ></button>
+      <button class="card_header_button" :class="{ reveal: obscure }" @click.stop.prevent="showDetails"></button>
     </div>
 
     <transition name="fade">
@@ -28,7 +67,9 @@
           <span>{{ expiry }}</span>
         </div>
         <div class="card_footer_cvv">
-          <span class="label"><p>CVV</p></span>
+          <span class="label">
+            <p>CVV</p>
+          </span>
           <span class="card_footer_cvv_value">
             <transition name="fade">
               <span v-if="obscured">{{ cvvNumber }}</span>
@@ -39,54 +80,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    name: { type: String, required: true },
-    expiry: { type: String, required: true },
-    cvv: { type: String, required: true },
-    number: { type: String, required: true }
-  },
-  data() {
-    return {
-      obscure: false,
-      obscured: true,
-      timeout: null
-    }
-  },
-  beforeUnmount() {
-    clearTimeout(this.timeout)
-  },
-  methods: {
-    showDetails() {
-      clearTimeout(this.timeout)
-      this.obscure = !this.obscure
-      this.obscured = false
-      this.timeout = setTimeout(() => {
-        this.obscured = true
-      }, 100)
-    }
-  },
-  computed: {
-    numbers() {
-      let number = this.number
-      if (this.obscure) {
-        number = this.number.substr(-4).padStart(16, "•")
-      }
-
-      return number.split(/(?<p>[0-9•]{4})/).filter((v) => v !== "")
-    },
-    cvvNumber() {
-      if (this.obscure) {
-        return "•••"
-      }
-
-      return this.cvv
-    }
-  }
-}
-</script>
 
 <style lang="stylus">
 .card
