@@ -1,51 +1,55 @@
-<script setup>
-import { ref, computed, onBeforeUnmount } from 'vue';
+<script setup lang="ts">
+import { ref, computed, onBeforeUnmount } from "vue"
 
-const props = defineProps({
-  name: { type: String, required: true },
-  expiry: { type: String, required: true },
-  cvv: { type: String, required: true },
-  number: { type: String, required: true }
-});
+const props = defineProps<{
+  name: string
+  expiry: string
+  cvv: string
+  number: string
+}>()
 
-const obscure = ref(false);
-const obscured = ref(true);
-const timeout = ref(null);
+const obscure = ref(false)
+const obscured = ref(true)
+const timeout = ref()
 
 const showDetails = () => {
-  clearTimeout(timeout.value);
-  obscure.value = !obscure.value;
-  obscured.value = false;
+  clearTimeout(timeout.value)
+  obscure.value = !obscure.value
+  obscured.value = false
   timeout.value = setTimeout(() => {
-    obscured.value = true;
-  }, 100);
-};
+    obscured.value = true
+  }, 100)
+}
 
 const numbers = computed(() => {
-  let number = props.number;
+  let number = props.number
   if (obscure.value) {
-    number = props.number.substr(-4).padStart(16, "•");
+    number = props.number.substring(12).padStart(16, "•")
   }
-  return number.split(/(?<p>[0-9•]{4})/).filter((v) => v !== "");
-});
+  return number.split(/(?<p>[0-9•]{4})/).filter((v) => v !== "")
+})
 
 const cvvNumber = computed(() => {
   if (obscure.value) {
-    return "•••";
+    return "•••"
   }
-  return props.cvv;
-});
+  return props.cvv
+})
 
 onBeforeUnmount(() => {
-  clearTimeout(timeout.value);
-});
+  clearTimeout(timeout.value)
+})
 </script>
 
 <template>
   <div class="card">
     <div class="card_header">
-      <img class="card_header_logo" src="../assets/logo.png" alt="Particia" />
-      <button class="card_header_button" :class="{ reveal: obscure }" @click.stop.prevent="showDetails"></button>
+      <img class="card_header_logo" src="@/assets/logo.png" alt="Particia" />
+      <button
+        class="card_header_button"
+        :class="{ reveal: obscure }"
+        @click.stop.prevent="showDetails"
+      ></button>
     </div>
 
     <transition name="fade">
@@ -84,7 +88,7 @@ onBeforeUnmount(() => {
 <style lang="stylus">
 .card
   background-color #131313
-  background-image url('../assets/icon.png')
+  background-image url('@/assets/icon.png')
   background-repeat no-repeat
   background-size: 73% 100%;
   width 300px
@@ -110,9 +114,9 @@ onBeforeUnmount(() => {
       background-position center center
       background-repeat no-repeat
       background-size contain
-      background-image url('../assets/reveal.png')
+      background-image url('@/assets/reveal.png')
       &.reveal
-        background-image url('../assets/obscure.png')
+        background-image url('@/assets/obscure.png')
       ::focus
         outline none
   &_numbers
